@@ -16,7 +16,7 @@ import { NextRequest, NextResponse } from 'next/server';
 //   });
 // }
 
-export function POST(request: NextRequest) {
+export async function POST(request: NextRequest) {
   // Handle POST request for authentication
   return NextResponse.json({ message: 'Auth route' });
 }
