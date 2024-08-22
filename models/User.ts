@@ -9,6 +9,7 @@ export interface UserDocument {
     image: string;
     createdAt: Date;
     updatedAt: Date;
+    favourites: Array<String> | undefined;
   }
 
   const UserSchema = new Schema<UserDocument>({
@@ -28,6 +29,10 @@ export interface UserDocument {
     name: {
       type: String,
       required: [true, "Name is required"]
+    },
+    favourites: {
+      type: Array,
+      required: false
     }
   },
   {
