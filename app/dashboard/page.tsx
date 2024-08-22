@@ -6,6 +6,10 @@ export default function Dashboard() {
   const { data: session } = useSession();
   console.log('client session', session)
   return (
-    <pre>{JSON.stringify(session)}</pre>
+    <main>
+      <h2>Dashboard</h2>
+      <Link href='/' />
+    </main>
+    // <pre>{JSON.stringify(session)}</pre>
   )
 }
