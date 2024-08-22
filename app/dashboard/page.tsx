@@ -1,12 +1,11 @@
-import { testDatabaseConnection } from "../actions";
+'use client'
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
-export default async function Home() {
-  const isConnected = await testDatabaseConnection();
-
+export default function Dashboard() {
+  const { data: session } = useSession();
+  console.log('client session', session)
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div>Welcome to your Card game dashboard</div>
-    </main>
-  );
+    <pre>{JSON.stringify(session)}</pre>
+  )
 }
