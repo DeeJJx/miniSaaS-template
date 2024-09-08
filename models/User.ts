@@ -32,7 +32,8 @@ export interface UserDocument {
     },
     favourites: {
       type: Array,
-      required: false
+      required: false,
+      default: []
     }
   },
   {

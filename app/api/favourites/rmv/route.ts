@@ -11,7 +11,6 @@ export async function POST(request: NextRequest, res: NextResponse) {
 
     if(!favourite){
         return NextResponse.json({ message: "Favourite is required" }, {status: 400})
-
     }
 
     try {
@@ -22,7 +21,7 @@ export async function POST(request: NextRequest, res: NextResponse) {
 
         const user = await User.findOneAndUpdate(
             { email },
-            { $addToSet: { favourites: favourite } },
+            { $pull: { favourites: favourite } },
             { new: true } 
         );
 
@@ -30,10 +29,10 @@ export async function POST(request: NextRequest, res: NextResponse) {
             return NextResponse.json({ message: "User not found" }, {status: 404})
         }
 
-        return NextResponse.json({ message: "Favourite added successfully" }, {status: 200})
+        return NextResponse.json({ message: "Favourite removed successfully" }, {status: 200})
 
     } catch (error){
-        console.error("Error adding favourite: ", error);
+        console.error("Error removing favourite: ", error);
         return NextResponse.json({ message: "Internal server error" }, {status: 500})
 
     }

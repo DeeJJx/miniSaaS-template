@@ -2,6 +2,10 @@
 import Link from "next/link"
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import logo from '../../public/cardmaster-logo.svg'
+import dl3StudioLogo from '../../public/dl3-studios.svg';
+import user from '../../public/user.svg'
 
 
 export default function Header(){
@@ -30,7 +34,7 @@ export default function Header(){
       return (
         <Link
           href="/login"
-          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 text-center"
+          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 text-center mb-2"
         >
           Sign In
         </Link>
@@ -39,29 +43,76 @@ export default function Header(){
   }
 
     return (
-            <header className="bg-white shadow-md">
-              <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                {/* Left Section: Logo */}
-                <div className="flex items-center space-x-2 w-48">
-                  {/* <img src= "/logo.png" alt="Logo" className="h-8 w-8" /> */}
-                  <span className="font-bold text-xl text-gray-800">MyApp</span>
+            <div className="navbar bg-base-100">
+            <div className="navbar-start">
+              <div className="dropdown">
+                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h16M4 18h7" />
+                  </svg>
                 </div>
-        
-                {/* Center Section: Title */}
-                <div className="flex-grow text-center">
-                  <Link href="/" className="text-2xl font-semibold text-gray-800">CardMaster</Link>
-                </div>
-        
-                {/* Right Section: Signup/Login */}
-                <div className="flex space-x-4 w-48">
-                    {showSession()}
-                  {status === "authenticated" ? '' : 
-                    <Link className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 text-center" href="/register">
-                        Sign Up
-                    </Link>
-                    }
-                </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                  <li><Link href='/'>Home</Link></li>
+                  <li><Link href='/dashboard'>Dashboard</Link></li>
+                </ul>
               </div>
-            </header>
+            </div>
+            <div className="navbar-center">
+              <Link href='/' className="btn btn-ghost text-xl flex items-center space-x-2 w-48">
+               <Image
+                priority
+                src={logo}
+                alt="CardMaster"
+                />
+              </Link>
+            </div>
+            <div className="navbar-end">
+              {/* <div className="dropdown">
+              {showSession()}
+              {status === "authenticated" ? '' : 
+                <Link className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 text-center" href="/register">
+                    Sign Up
+                </Link>
+                }
+              </div> */}
+               <div className="dropdown dropdown-end">
+                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 rounded-full">
+                    {/* <img
+                      alt="Tailwind CSS Navbar component"
+                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" /> */}
+                      <Image
+                        src={user}
+                        priority
+                        alt="User Icon"
+                      />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 p-2 shadow w-44">
+                  <li className="w-full">{showSession()}</li>
+                  <li className="w-full">              
+                    {status === "authenticated" ? '' : 
+                      <Link className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 text-center" href="/register">
+                          Sign Up
+                      </Link>
+                    }
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
           );
 }
