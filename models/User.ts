@@ -10,6 +10,7 @@ export interface UserDocument {
     createdAt: Date;
     updatedAt: Date;
     favourites: Array<String> | undefined;
+    paidFlag: Boolean | undefined; 
   }
 
   const UserSchema = new Schema<UserDocument>({
@@ -34,6 +35,11 @@ export interface UserDocument {
       type: Array,
       required: false,
       default: []
+    },
+    paidFlag: {
+      type: Boolean,
+      required: true,
+      default: false
     }
   },
   {

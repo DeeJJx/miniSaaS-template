@@ -138,11 +138,11 @@ export default function FindGame() {
     }
   
     return (
-      <div className="flex min-h-screen flex-col items-center justify-start p-12 bg-neutral text-neutral-content w-full">
+      <div className="flex min-h-screen flex-col items-center justify-start p-12 w-full">
   
         <div className='mb-4'>
           {/* <label className='block text-lg font-bold mb-2'>Select Number of Players:</label> */}
-          <div className="text-center text-4xl font-bold mb-8 max-w-prose">Enter Your Number of Players:</div>
+          <div className="text-center text-4xl font-bold mb-8 max-w-prose"><h1>Enter Your Number of Players:</h1></div>
 
           <div className='flex items-center w-full justify-center'>
             <button onClick={decrementPlayerCount} className="btn btn-outline btn-primary">-</button>
@@ -211,7 +211,10 @@ export default function FindGame() {
                       </div>
                       </div>
                       <p className="text-lg text-secondary">Recommended Players:</p>
-                      <p className="text-lg text-secondary">{currentGame.recommendedPlayers.join(", ")}</p>
+                      <p className="text-lg text-secondary">
+                        {currentGame.recommendedPlayers[0]} 
+                        {currentGame.recommendedPlayers.length > 1 ? `- ${currentGame.recommendedPlayers[currentGame.recommendedPlayers.length -1]}` : ''} 
+                      </p>
                      </div>
                   </div>
                 </Link>
