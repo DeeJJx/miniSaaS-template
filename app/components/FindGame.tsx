@@ -41,6 +41,11 @@ export default function FindGame() {
   
       if (status === "authenticated" && session.user?.email) {
         fetchFavourites(session.user.email as string);
+      } else if (localStorage.getItem("cardMasterFavs")) {
+        const favs = localStorage.getItem("cardMasterFavs");
+        if(favs){
+          setUserFavourites(JSON.parse(favs));
+        }
       }
 
     }, [status])
@@ -77,65 +82,114 @@ export default function FindGame() {
         return;
       }
 
-      try {
-        const response = await fetch('/api/favourites/add', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ favourite: gameName, email: email})
-        });
-
-        const data = await response.json();
-
-        if(response.ok){
-          console.log(`Added ${gameName} to favourites`, data)
-          setUserFavourites(userFavourites => [...userFavourites, gameName])
-        } else {
-          console.error('Error adding favourite:', data.message);
+      if(status === "authenticated"){
+        try {
+          const response = await fetch('/api/favourites/add', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ favourite: gameName, email: email})
+          });
+  
+          const data = await response.json();
+  
+          if(response.ok){
+            console.log(`Added ${gameName} to favourites`, data)
+            setUserFavourites(userFavourites => [...userFavourites, gameName])
+          } else {
+            console.error('Error adding favourite:', data.message);
+          }
+        } catch (error) {
+          console.error('Error:', error)
         }
-      } catch (error) {
-        console.error('Error:', error)
+      } else {
+        const localStorageFavs = localStorage.getItem("cardMasterFavs");
+        // Parse the existing favorites or initialize an empty array
+        const favs = localStorageFavs ? JSON.parse(localStorageFavs) : [];
+
+        // Add the new favorite only if it's not already in the localStorage favorites
+        if (!favs.includes(gameName)) {
+          const updatedFavs = [...favs, gameName];
+
+          // Store the updated favorites in localStorage
+          localStorage.setItem("cardMasterFavs", JSON.stringify(updatedFavs));
+
+          // Update the userFavourites state with the new favorite
+          setUserFavourites(updatedFavs);
+          
+          console.log(`Added ${gameName} to localStorage favorites`);
+        } else {
+          console.log('Game is already in localStorage favorites');
+        }
       }
     }
 
     const rmvFavouriteHandler = async (gameName: string, email: string | null | undefined) => {
       console.log(gameName, 'gameName');
-      console.log(userFavourites, 'userFavs')
+      console.log(userFavourites, 'userFavs');
+    
       const isInFavourites = (gameName: string, userFavourites: string[]): boolean => {
         return userFavourites.some(game => game === gameName);
       }
-
-      const isFavourite = isInFavourites(gameName, userFavourites)
-
-      console.log(isFavourite, 'isFavourtie')
-
-      if(!isFavourite){
-        console.log('not in favs do nothing')
+    
+      const isFavourite = isInFavourites(gameName, userFavourites);
+    
+      console.log(isFavourite, 'isFavourtie');
+    
+      if (!isFavourite) {
+        console.log('Not in favourites, do nothing');
         return;
       }
-
-      try {
-        const response = await fetch('/api/favourites/rmv', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ favourite: gameName, email: email})
-        });
-
-        const data = await response.json();
-
-        if(response.ok){
-          console.log(`Removed ${gameName} from favourites`, data)
-          setUserFavourites(userFavourites => userFavourites.filter(game => game !== gameName));
-        } else {
-          console.error('Error removing favourite:', data.message);
+    
+      // If the user is authenticated, handle removing from the backend
+      if (status === "authenticated") {
+        try {
+          const response = await fetch('/api/favourites/rmv', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ favourite: gameName, email: email }),
+          });
+    
+          const data = await response.json();
+    
+          if (response.ok) {
+            console.log(`Removed ${gameName} from favourites`, data);
+            // Update the userFavourites state
+            setUserFavourites(userFavourites => userFavourites.filter(game => game !== gameName));
+          } else {
+            console.error('Error removing favourite:', data.message);
+          }
+        } catch (error) {
+          console.error('Error:', error);
         }
-      } catch (error) {
-        console.error('Error:', error)
+      } 
+      // If the user is not authenticated, handle removing from localStorage
+      else {
+        const localStorageFavs = localStorage.getItem("cardMasterFavs");
+    
+        // Parse the existing favorites from localStorage
+        const favs = localStorageFavs ? JSON.parse(localStorageFavs) : [];
+    
+        // If the game exists in the localStorage favorites, remove it
+        if (favs.includes(gameName)) {
+          const updatedFavs = favs.filter((game: string) => game !== gameName);
+    
+          // Update localStorage with the new favorites array
+          localStorage.setItem("cardMasterFavs", JSON.stringify(updatedFavs));
+    
+          // Update the userFavourites state
+          setUserFavourites(updatedFavs);
+    
+          console.log(`Removed ${gameName} from localStorage favourites`);
+        } else {
+          console.log('Game not found in localStorage favourites');
+        }
       }
-    }
+    };
+    
   
     return (
       <div className="flex min-h-screen flex-col items-center justify-start p-12 w-full">
@@ -181,10 +235,7 @@ export default function FindGame() {
                         {userFavourites.includes(currentGame.name) ?
                           <button onClick={(e) => {
                             e.preventDefault();
-                            if(status !== "authenticated"){
-                              return;
-                            }
-                            rmvFavouriteHandler(currentGame.name, session.user?.email)
+                            rmvFavouriteHandler(currentGame.name, session?.user?.email)
                           }} className='rmvFavourite btn btn-secondary'> 
                           <Image
                             src={starSolid}
@@ -195,10 +246,7 @@ export default function FindGame() {
                         :
                           <button onClick={(e) => {
                             e.preventDefault();
-                            if(status !== "authenticated"){
-                              return;
-                            }
-                            addFavouriteHandler(currentGame.name, session.user?.email)
+                            addFavouriteHandler(currentGame.name, session?.user?.email)
                             }
                           } className='addFavourite btn btn-secondary z-10'>
                           <Image

@@ -35,6 +35,11 @@ export default function Favourites() {
 
     if (status === "authenticated" && session.user?.email) {
       fetchFavourites(session.user.email as string);
+    } else if (localStorage.getItem("cardMasterFavs")) {
+      const favs = localStorage.getItem("cardMasterFavs");
+      if(favs){
+        setUserFavourites(JSON.parse(favs));
+      }
     }
 
   }, [status, session])
@@ -52,6 +57,7 @@ export default function Favourites() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-start">
       <h1 className="text-4xl font-bold text-center mt-2 mb-6">Favourites</h1>
+      <h2 className="text-m font-bold text-center mt-2 mb-6">Sign up to permanently store your favourite games</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
         {userFavourites.map((fav, index) => {
           let objective = '';
