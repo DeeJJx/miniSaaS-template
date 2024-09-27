@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import cardGames from "@/data/cardGames";
 
 
-export default function Dashboard() {
+export default function Favourites() {
   const { data: session, status } = useSession()
   const [loading, setLoading] = useState(true);
   const [userFavourites, setUserFavourites] = useState<string[]>([]);
@@ -51,7 +51,7 @@ export default function Dashboard() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-start">
-      <h1 className="text-4xl font-bold text-center mt-2 mb-6">Dashboard</h1>
+      <h1 className="text-4xl font-bold text-center mt-2 mb-6">Favourites</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
         {userFavourites.map((fav, index) => {
           let objective = '';
