@@ -6,6 +6,7 @@ export default function Footer() {
  return (
     <footer className="footer bg-base-200 text-base-content p-10">
         <aside>
+            <a href="https://www.producthunt.com/posts/cardmaster?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-cardmaster" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=493021&theme=light" alt="CardMaster - Find&#0032;Fun&#0032;Card&#0032;Games&#0032;for&#0032;Any&#0032;Number&#0032;of&#0032;Players | Product Hunt" width="250" height="54" /></a>
             <Image src={dl3StudioLogo} alt="DL3 Studios Logo" width={200} height={200} />
             <p>
             DL3 Studios Ltd.      

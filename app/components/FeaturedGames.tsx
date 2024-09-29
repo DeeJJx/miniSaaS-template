@@ -19,7 +19,7 @@ const FeaturedGames: React.FC<FeaturedGamesProps> = ({ cardGames }) => {
   return (
     <>
       {randomGames.map((game, index) => (
-        <Link className='link link-hover' href={`/games/${game.name}`} key={index}>
+        <Link className='link link-hover' href={`/games/${game.name.toLowerCase()}`} key={index}>
           {game.name}
         </Link>
       ))}
