@@ -230,7 +230,7 @@ export default function FindGame() {
                   <div className="card bg-base-100 shadow-xl max-w-96 mb-4">
                     <div className="card-body">
                       <div className='card-title justify-between'>
-                        <h2 className="card-title text-2xl font-bold text-primary">{currentGame.name}</h2>
+                        <h3 className="card-title text-2xl font-bold text-primary">{currentGame.name}</h3>
                         <div className='card-actions'>
                         {userFavourites.includes(currentGame.name) ?
                           <button onClick={(e) => {

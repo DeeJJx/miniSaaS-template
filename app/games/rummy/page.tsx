@@ -1,7 +1,29 @@
 import Link from "next/link";
+import Head from "next/head";
 
 export default function Rummy() {
+
+  const gameSchema = {
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "Rummy",
+    "numberOfPlayers": "2-6",
+    "gameCategory": "Card Game",
+    "description": "Rummy is a fun card game for 2 to 6 players using a standard deck of cards. The objective of the game is to form sets and sequences of cards.",
+    "url": "https://cardmaster.dev/games/rummy",
+  };
+
   return (
+    <>
+    <Head>
+    <title>Rummy - A Card Game for 2-6 Players</title>
+    <meta name="description" content="Learn how to play Rummy, a fun card game for 2-6 players. Read the rules and strategies." />
+    
+    {/* Inject JSON-LD structured data into the head */}
+    <script type="application/ld+json">
+      {JSON.stringify(gameSchema)}
+    </script>
+   </Head>
     <main className="flex min-h-screen flex-col items-center justify-start p-12 bg-base-200">
       <div className="text-center text-4xl font-bold mb-8">Rummy Rules</div>
 
@@ -49,5 +71,6 @@ export default function Rummy() {
         </div>
       </div>
     </main>
+    </>
   );
 }
