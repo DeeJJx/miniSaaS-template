@@ -192,7 +192,7 @@ export default function FindGame() {
     
   
     return (
-      <div className="flex min-h-screen flex-col items-center justify-start p-12 w-full">
+      <div className="flex flex-col items-center justify-start p-12 w-full">
   
         <div className='mb-4'>
           {/* <label className='block text-lg font-bold mb-2'>Select Number of Players:</label> */}
