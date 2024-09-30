@@ -20,6 +20,7 @@ export default function Home() {
               for a quick game with a deck of cards, we have a variety of card
               games suited for any number of players. Input the number of
               players, and we'll suggest a random game for you to enjoy!
+              These games are all suited to a standard 52-card deck.
             </p>
           </div>
         </div>
