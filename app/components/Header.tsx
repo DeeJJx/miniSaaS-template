@@ -3,7 +3,6 @@ import Link from "next/link"
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import logo from '../../public/cardmaster-logo.svg'
 import dl3StudioLogo from '../../public/dl3-studios.svg';
 import user from '../../public/user.svg'
 
@@ -72,8 +71,8 @@ export default function Header(){
               <Link href='/' className="btn btn-ghost text-xl flex items-center space-x-2 w-48">
                <Image
                 priority
-                src={logo}
-                alt="CardMaster"
+                src={dl3StudioLogo}
+                alt="DL3 Studios // Change to appropriate"
                 />
               </Link>
             </div>

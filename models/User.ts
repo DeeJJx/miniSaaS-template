@@ -9,7 +9,7 @@ export interface UserDocument {
     image: string;
     createdAt: Date;
     updatedAt: Date;
-    favourites: Array<String> | undefined;
+    favourites: Array<String> | undefined; // whatever the product / service may be
     paidFlag: Boolean | undefined; 
   }
 
